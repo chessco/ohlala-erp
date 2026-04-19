@@ -12,7 +12,7 @@ if (file_exists($_SERVER["DOCUMENT_ROOT"] . $path) && $ext != "") {
 // 2. Si no tiene extensión, intentamos añadir .php
 if ($ext == "") {
     if (str_ends_with($path, '/dashboard')) {
-        include('dashboard2.php');
+        include('dashboard.php');
         exit();
     }
     if (file_exists($_SERVER["DOCUMENT_ROOT"] . $path . '.php')) {

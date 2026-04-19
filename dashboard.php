@@ -6,9 +6,21 @@
 include('conexion.php');
 session_start();
 
+// 1.5 VERSIÓN DEL DASHBOARD (ROUTER)
+if (isset($DASHBOARD_VERSION)) {
+    if ($DASHBOARD_VERSION == 2) { include('dashboardv2.php'); exit(); }
+    if ($DASHBOARD_VERSION == 3) { include('dashboardv3.php'); exit(); }
+}
+
 // 1. CONTROL DE ACCESO (URL LIMPIA)
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header("Location: index"); // Sin .php
+    exit();
+}
+
+// 1.5 VERSIÓN DEL DASHBOARD (ROUTER)
+if (isset($DASHBOARD_VERSION) && $DASHBOARD_VERSION == 2) {
+    include('dashboardv2.php');
     exit();
 }
 

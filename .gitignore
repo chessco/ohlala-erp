@@ -1,9 +1,3 @@
-.vscode/
-ohlala_deploy.zip
-temp_qr/
-*.txt
-*.sql
 *.log
-uploads/
-Excell/
-.env
+*.tmp
+.vscode/

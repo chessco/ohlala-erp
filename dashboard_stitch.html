@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ohlala ERP - Gestión Ejecutiva</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#091d2e",
+                        "background": "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "surface-container": "#edeeef",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "outline": "#74777d",
+                        "inverse-primary": "#b7c8de",
+                        "tertiary-fixed-dim": "#b2c5ff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#00123b",
+                        "surface-container-high": "#e7e8e9",
+                        "on-tertiary-container": "#5c8cff",
+                        "on-secondary-container": "#526478",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#4e6073",
+                        "on-primary-fixed-variant": "#38485a",
+                        "secondary-fixed-dim": "#b5c8df",
+                        "secondary-container": "#cfe2f9",
+                        "surface-tint": "#4f6073",
+                        "primary-container": "#1a2b3c",
+                        "outline-variant": "#c4c6cd",
+                        "on-primary-fixed": "#0b1d2d",
+                        "surface-container-low": "#f3f4f5",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#b7c8de",
+                        "primary-fixed": "#d2e4fb",
+                        "on-tertiary-fixed-variant": "#0040a2",
+                        "on-primary-container": "#8192a7",
+                        "surface-dim": "#d9dadb",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-fixed": "#d1e4fb",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed": "#dae2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#002565",
+                        "on-tertiary-fixed": "#001848",
+                        "surface-container-highest": "#e1e3e4",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#36485b",
+                        "inverse-surface": "#2e3132",
+                        "surface": "#f8f9fa",
+                        "primary": "#041627",
+                        "on-surface-variant": "#44474c",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar Integration -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-[#f8f9fa] flex flex-col p-6 space-y-8 shadow-[20px_0_40px_rgba(0,0,0,0.02)] z-40">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="corporate_fare">corporate_fare</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-[#041627] font-headline tracking-tight">Ohlala ERP</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-secondary font-medium">The Curated Authority</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2 pt-4">
+<a class="flex items-center space-x-3 px-4 py-3 bg-white text-[#041627] rounded-lg shadow-sm font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard_customize">dashboard_customize</span>
+<span class="font-['Manrope'] font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-[#4e6073] opacity-70 hover:opacity-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-['Manrope'] font-medium text-sm">Pedidos</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-[#4e6073] opacity-70 hover:opacity-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-['Manrope'] font-medium text-sm">Clientes</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-[#4e6073] opacity-70 hover:opacity-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Manrope'] font-medium text-sm">Productos</span>
+</a>
+</nav>
+<div class="pt-6 border-t border-surface-container-low space-y-2">
+<a class="flex items-center space-x-3 px-4 py-3 text-[#4e6073] opacity-70 hover:opacity-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Manrope'] font-medium text-sm">Configuración</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-error opacity-70 hover:opacity-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-['Manrope'] font-medium text-sm">Cerrar Sesión</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar Integration -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-30 bg-[#f8f9fa]/80 backdrop-blur-md h-20 flex justify-between items-center px-8 shadow-sm">
+<div class="flex items-center bg-surface-container-low rounded-full px-4 py-2 w-96">
+<span class="material-symbols-outlined text-secondary mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body" placeholder="Buscar pedidos, clientes..." type="text"/>
+</div>
+<div class="flex items-center space-x-6">
+<div class="flex space-x-4">
+<button class="text-secondary hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<div class="flex items-center space-x-3 pl-6 border-l border-surface-container-high">
+<div class="text-right">
+<p class="text-xs font-bold text-primary font-headline uppercase tracking-tighter">Director Ejecutivo</p>
+<p class="text-[10px] text-secondary">ID: #8829</p>
+</div>
+<img alt="Perfil Ejecutivo" class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="professional corporate headshot of a refined executive with a subtle background and soft, premium lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb35uX163t8d-0iyJnI-DwVNH_I46xFMmq5CV3e0IfIPdTpAZpFx-dEzoWAtAH2Mftg6JDzFaQBiy2GilTVW0Siv0Ad3JHFJ0XJxXdLvgv_XCaYJpURpZ_alMMUfjOAAi7XJYwLhWFYBoU0seJ3D_saQWOpgy5_ZeIhgb24qJ3xDuTlFiJyE1pAYES3ZCnnXJ4cwDaPBm1C0DGZcXOrxe732jdSSAf9FdQ5VO5xgAbLe5gl8_56c6JdfyemZIGInrRNBf0leO-RGo"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 p-8 min-h-screen bg-background">
+<!-- Header Section -->
+<section class="mb-10 flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-extrabold text-primary tracking-tight mb-1">Dashboard Ejecutivo</h2>
+<p class="text-secondary font-body">Bienvenido al centro de control de Ohlala ERP. Aquí está el resumen de hoy.</p>
+</div>
+<button class="glass-card px-6 py-3 rounded-xl border border-white/20 shadow-xl flex items-center space-x-2 text-primary font-headline font-bold hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span>Nuevo Pedido</span>
+</button>
+</section>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+</div>
+<span class="text-emerald-600 bg-emerald-50 px-2 py-1 rounded text-xs font-bold">+12.4%</span>
+</div>
+<div>
+<p class="text-secondary text-xs font-headline uppercase tracking-wider mb-1">Total Pedidos</p>
+<p class="text-3xl font-black text-primary tracking-tighter">1,284</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</div>
+<span class="text-emerald-600 bg-emerald-50 px-2 py-1 rounded text-xs font-bold">+5.2%</span>
+</div>
+<div>
+<p class="text-secondary text-xs font-headline uppercase tracking-wider mb-1">Clientes Activos</p>
+<p class="text-3xl font-black text-primary tracking-tighter">842</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="inventory">inventory</span>
+</div>
+<span class="text-amber-600 bg-amber-50 px-2 py-1 rounded text-xs font-bold">-2.1%</span>
+</div>
+<div>
+<p class="text-secondary text-xs font-headline uppercase tracking-wider mb-1">Productos en Stock</p>
+<p class="text-3xl font-black text-primary tracking-tighter">3,510</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Main Chart Area -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-lg font-bold text-primary font-headline">Tendencias de Ventas</h3>
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs text-secondary font-medium">Este mes</span>
+</div>
+</div>
+<!-- Visual placeholder for a soft chart -->
+<div class="relative h-64 w-full bg-surface-container-low rounded-lg overflow-hidden flex items-end px-4 space-x-4">
+<div class="w-full bg-primary/10 rounded-t-lg h-[40%] transition-all"></div>
+<div class="w-full bg-primary/15 rounded-t-lg h-[60%] transition-all"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[45%] transition-all"></div>
+<div class="w-full bg-primary/10 rounded-t-lg h-[75%] transition-all"></div>
+<div class="w-full bg-primary/25 rounded-t-lg h-[65%] transition-all"></div>
+<div class="w-full bg-primary/30 rounded-t-lg h-[90%] transition-all"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[55%] transition-all"></div>
+<div class="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none">
+<div class="w-full h-px bg-white/40"></div>
+<div class="w-full h-px bg-white/40"></div>
+<div class="w-full h-px bg-white/40"></div>
+</div>
+</div>
+<div class="flex justify-between mt-4 px-2 text-[10px] font-bold text-secondary uppercase tracking-widest">
+<span>Lun</span><span>Mar</span><span>Mie</span><span>Jue</span><span>Vie</span><span>Sab</span><span>Dom</span>
+</div>
+</div>
+<!-- Side Action / Status -->
+<div class="bg-primary p-8 rounded-xl text-white flex flex-col justify-between overflow-hidden relative shadow-xl">
+<div class="relative z-10">
+<h3 class="text-xl font-bold font-headline mb-2">Resumen Operativo</h3>
+<p class="text-primary-fixed/60 text-sm font-body mb-6">Estado crítico de las operaciones de hoy.</p>
+<div class="space-y-4">
+<div class="flex justify-between items-center bg-white/5 p-4 rounded-lg">
+<span class="text-xs font-medium opacity-80 uppercase tracking-wider">Logística</span>
+<span class="text-xs font-bold text-emerald-400">98% Eficiencia</span>
+</div>
+<div class="flex justify-between items-center bg-white/5 p-4 rounded-lg">
+<span class="text-xs font-medium opacity-80 uppercase tracking-wider">Incidencias</span>
+<span class="text-xs font-bold text-amber-400">2 Pendientes</span>
+</div>
+</div>
+</div>
+<!-- Abstract Texture -->
+<div class="absolute -bottom-20 -right-20 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="absolute -top-10 -left-10 w-40 h-40 bg-secondary/20 rounded-full blur-2xl"></div>
+<button class="relative z-10 mt-8 w-full py-4 bg-white text-primary font-headline font-black rounded-lg hover:bg-surface-container transition-colors shadow-lg active:scale-95 transition-transform">
+                    GENERAR REPORTE PDF
+                </button>
+</div>
+</div>
+<!-- Pedidos Recientes Section -->
+<section class="mt-8">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] overflow-hidden">
+<div class="px-8 py-6 flex justify-between items-center border-b border-surface-container-low">
+<h3 class="text-lg font-bold text-primary font-headline">Pedidos Recientes</h3>
+<button class="text-xs font-bold text-secondary hover:text-primary transition-colors flex items-center">
+                        Ver todo <span class="material-symbols-outlined ml-1 text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">ID Pedido</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Cliente</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Fecha</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Monto</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest text-center">Estado</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low font-body">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5 text-sm font-bold text-primary">#OH-9421</td>
+<td class="px-8 py-5">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-[10px] font-bold">AL</div>
+<span class="text-sm font-medium text-primary">Alphonse Laurent</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-secondary">24 Oct, 2023</td>
+<td class="px-8 py-5 text-sm font-bold text-primary">$1,250.00</td>
+<td class="px-8 py-5 text-center">
+<span class="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-[10px] font-bold uppercase tracking-wide">Completado</span>
+</td>
+<td class="px-8 py-5">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5 text-sm font-bold text-primary">#OH-9422</td>
+<td class="px-8 py-5">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-[10px] font-bold">MS</div>
+<span class="text-sm font-medium text-primary">Maison de Soie</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-secondary">25 Oct, 2023</td>
+<td class="px-8 py-5 text-sm font-bold text-primary">$4,820.00</td>
+<td class="px-8 py-5 text-center">
+<span class="px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-[10px] font-bold uppercase tracking-wide">Preparando</span>
+</td>
+<td class="px-8 py-5">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5 text-sm font-bold text-primary">#OH-9423</td>
+<td class="px-8 py-5">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-[10px] font-bold">JV</div>
+<span class="text-sm font-medium text-primary">Julianne Vasseur</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-secondary">25 Oct, 2023</td>
+<td class="px-8 py-5 text-sm font-bold text-primary">$890.00</td>
+<td class="px-8 py-5 text-center">
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full text-[10px] font-bold uppercase tracking-wide">Pendiente</span>
+</td>
+<td class="px-8 py-5">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5 text-sm font-bold text-primary">#OH-9424</td>
+<td class="px-8 py-5">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-[10px] font-bold">EL</div>
+<span class="text-sm font-medium text-primary">Elegance Lab</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-secondary">26 Oct, 2023</td>
+<td class="px-8 py-5 text-sm font-bold text-primary">$320.00</td>
+<td class="px-8 py-5 text-center">
+<span class="px-3 py-1 bg-error-container text-on-error-container rounded-full text-[10px] font-bold uppercase tracking-wide">Cancelado</span>
+</td>
+<td class="px-8 py-5">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer decoration / Tonal layer -->
+<footer class="ml-64 p-8 text-center text-[10px] text-secondary font-headline uppercase tracking-[0.3em] opacity-30">
+        © 2024 Ohlala ERP System - Propiedad Intelectual Ejecutiva
+    </footer>
+</body></html>
