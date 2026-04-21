@@ -31,6 +31,7 @@ while ($row = mysqli_fetch_assoc($resApprovals)) {
         "body" => "Requiere su aprobación Nivel $row[level]: $row[description]",
         "time" => $row['created_at'],
         "type" => "approval_needed",
+        "request_id" => $row['request_id'],
         "link" => "list_requests.php?id=$row[request_id]"
     ];
 }
@@ -50,6 +51,7 @@ while ($row = mysqli_fetch_assoc($resDecisions)) {
         "body" => "Su solicitud '$row[description]' ha sido $statusText.",
         "time" => $row['updated_at'],
         "type" => "decision_made",
+        "request_id" => $row['id'],
         "link" => "list_requests.php?id=$row[id]"
     ];
 }

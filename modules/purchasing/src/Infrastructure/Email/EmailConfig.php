@@ -18,7 +18,8 @@ class EmailConfig {
             'port' => (int)($settings['smtp_port'] ?? 587),
             'user' => $settings['smtp_user'] ?? 'smtp_user_placeholder',
             'pass' => $settings['smtp_pass'] ?? 'smtp_pass_placeholder',
-            'from_name' => $settings['smtp_from_name'] ?? 'Ohlala ERP Compras'
+            'from_name' => $settings['smtp_from_name'] ?? 'Ohlala ERP Compras',
+            'app_url' => $settings['app_url'] ?? 'http://localhost/ohlala-erp'
         ];
     }
 }

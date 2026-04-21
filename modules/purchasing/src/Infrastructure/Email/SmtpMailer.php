@@ -51,17 +51,15 @@ class SmtpMailer {
                 "From: $fromName <$this->user>",
                 "MIME-Version: 1.0",
                 "Content-Type: text/html; charset=UTF-8",
-                "Content-Transfer-Encoding: 8bit",
+                "Content-Transfer-Encoding: base64",
                 "Date: " . date("r")
             ];
 
-            $body = "<html><body style='font-family: sans-serif; color: #333;'>";
-            $body .= "<h2>Ohlala ERP - Notificación</h2>";
-            $body .= "<p>" . nl2br(htmlspecialchars($message)) . "</p>";
-            $body .= "<hr><small>Este es un correo automático, por favor no responda.</small>";
-            $body .= "</body></html>";
-
-            fwrite($connection, implode("\r\n", $headers) . "\r\n\r\n" . $body . "\r\n.\r\n");
+            $headersString = implode("\r\n", $headers) . "\r\n\r\n";
+            $body = chunk_split(base64_encode($message));
+            
+            // Ensure no double CRLF before the termination dot
+            fwrite($connection, $headersString . $body . ".\r\n");
             $this->getResponse($connection, "250");
 
             $this->sendCommand($connection, "QUIT", "221");

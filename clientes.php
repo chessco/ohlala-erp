@@ -38,15 +38,25 @@ $total_paginas = ceil($total_filas / $por_pagina);
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Modern Fonts & Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
     <style>
+        :root {
+            --primary-ink: #021619;
+            --artisanal-gold: #BD9A5F;
+            --paper-cream: #F7F5EB;
+        }
         :root[data-theme="dark"] { --bg-deep: #050a14; --card-blue: #0f172a; --accent: #2563eb; --text-silver: #94a3b8; --text-main: #ffffff; --border-color: rgba(255,255,255,0.05); }
         :root[data-theme="light"] { --bg-deep: #f8fafc; --card-blue: #ffffff; --accent: #2563eb; --text-silver: #64748b; --text-main: #1e293b; --border-color: rgba(0,0,0,0.1); }
         :root[data-theme="custom"] { --bg-deep: #0f172a; --card-blue: #1e293b; --accent: #8b5cf6; --text-silver: #c084fc; --text-main: #f3f4f6; --border-color: rgba(139, 92, 246, 0.2); }
         :root[data-theme="ohlala"] { --bg-deep: #F7F5EB; --card-blue: #FFFFFF; --accent: #BD9A5F; --text-silver: #7a828a; --text-main: #071c1f; --border-color: rgba(189, 154, 95, 0.3); }
 
-        body { background-color: var(--bg-deep); color: var(--text-main); font-family: 'Poppins', sans-serif; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg-deep); color: var(--text-main); font-family: 'Manrope', sans-serif; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
+        .font-headline { font-family: 'Playfair Display', serif; }
+        
         .navbar-custom { background-color: var(--card-blue); border-bottom: 1px solid var(--border-color); padding: 0.8rem 1.2rem; position: sticky; top: 0; z-index: 1050; }
         .card-main { background: var(--card-blue); border-radius: 20px; padding: 20px; border: 1px solid var(--border-color); color: var(--text-main); }
         .form-control { background-color: rgba(0,0,0,0.1); border: 1px solid var(--border-color); color: var(--text-main); }
@@ -71,31 +81,40 @@ $total_paginas = ceil($total_filas / $por_pagina);
         [data-theme="light"] .text-white, [data-theme="ohlala"] .text-white { color: var(--text-main) !important; }
     </style>
 </head>
-<body>
+<body class="bg-[#F7F5EB] font-body text-[#071c1f]">
 
-<nav class="navbar-custom d-flex justify-content-between align-items-center mb-4 shadow">
-    <div class="d-flex align-items-center">
-        <a href="dashboard.php" class="btn btn-outline-primary border-0 me-2" title="Volver al Panel">
-            <i class="fa-solid fa-house-chimney fs-5"></i>
-        </a>
-        <h4 class="m-0 text-white" style="font-size: 1.1rem;">Ohlala <span style="color: var(--accent);">Clientes</span> <small style="font-size: 0.65rem; opacity:0.5;">v2.1</small></h4>
-    </div>
-    <div class="d-flex align-items-center gap-2">
-        <div class="dropdown me-1">
-            <button class="btn btn-sm btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown">
-                <i class="fa-solid fa-palette"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark shadow">
-                <li><a class="dropdown-item" href="javascript:void(0)" onclick="setTheme('dark')"><i class="fa-solid fa-moon me-2"></i> Oscuro</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0)" onclick="setTheme('light')"><i class="fa-solid fa-sun me-2"></i> Claro</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0)" onclick="setTheme('custom')"><i class="fa-solid fa-wand-magic-sparkles me-2"></i> Custom</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0)" onclick="setTheme('ohlala')"><i class="fa-solid fa-star me-2" style="color: #BD9A5F;"></i> Ohlala</a></li>
-            </ul>
+<header class="flex justify-between items-center w-full px-6 py-4 z-50 bg-[#BD9A5F] top-0 shadow-lg shadow-[#021619]/20 sticky">
+        <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined text-[#021619] cursor-pointer md:hidden" onclick="history.back()">arrow_back</span>
+            <h1 class="text-2xl font-headline font-bold text-[#021619] tracking-tight">Ohlala! Bistro (V3.1)</h1>
         </div>
-        <a href="dashboard.php" class="btn btn-sm btn-outline-light me-1 d-none d-md-inline-block"><i class="fa-solid fa-arrow-left"></i> Volver</a>
-        <a href="logout.php" class="btn btn-sm btn-outline-danger border-0"><i class="fa-solid fa-power-off"></i></a>
+    <div class="hidden md:flex gap-8 items-center">
+        <nav class="flex gap-6 items-center text-[#021619]">
+            <a class="font-headline opacity-80 hover:opacity-100 no-underline text-[#021619]" href="dashboardv3.php">Inicio</a>
+            
+            <!-- Dropdown Catálogos -->
+            <div class="relative group">
+                <button class="font-headline opacity-80 hover:opacity-100 flex items-center gap-1 py-1">
+                    Catálogos <span class="material-symbols-outlined text-sm">expand_more</span>
+                </button>
+                <div class="absolute left-0 mt-2 w-48 bg-[#021619] text-[#F7F5EB] shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 rounded-sm overflow-hidden border border-[#BD9A5F]/20">
+                    <a href="clientes.php" class="block px-4 py-3 text-[10px] uppercase font-black tracking-widest hover:bg-[#BD9A5F] hover:text-[#021619] transition-all border-b border-white/5 no-underline text-[#F7F5EB] bg-[#BD9A5F]/10">Clientes</a>
+                    <a href="productos.php" class="block px-4 py-3 text-[10px] uppercase font-black tracking-widest hover:bg-[#BD9A5F] hover:text-[#021619] transition-all border-b border-white/5 no-underline text-[#F7F5EB]">Productos</a>
+                    <a href="modules/purchasing/ui/suppliers.php" class="block px-4 py-3 text-[10px] uppercase font-black tracking-widest hover:bg-[#BD9A5F] hover:text-[#021619] transition-all border-b border-white/5 no-underline text-[#F7F5EB]">Proveedores</a>
+                    <a href="modules/purchasing/ui/items.php" class="block px-4 py-3 text-[10px] uppercase font-black tracking-widest hover:bg-[#BD9A5F] hover:text-[#021619] transition-all border-b border-white/5 no-underline text-[#F7F5EB]">Insumos</a>
+                    <?php if($esAdmin): ?>
+                    <a href="usuarios.php" class="block px-4 py-3 text-[10px] uppercase font-black tracking-widest hover:bg-[#BD9A5F] hover:text-[#021619] transition-all no-underline text-[#F7F5EB]">Usuarios</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <a class="font-headline opacity-80 hover:opacity-100 no-underline text-[#021619]" href="modules/purchasing/ui/list_requests.php">Compras</a>
+        </nav>
+        <button onclick="location.href='logout.php'" class="bg-[#021619] text-[#F7F5EB] px-6 py-2 font-headline font-medium hover:bg-[#021619]/90 active:scale-95 transition-all">
+            Salir
+        </button>
     </div>
-</nav>
+</header>
 
 <div class="container-fluid px-3">
     <div class="row mb-3 g-2">
