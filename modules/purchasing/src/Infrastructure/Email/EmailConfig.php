@@ -7,7 +7,7 @@ namespace Purchasing\Infrastructure\Email;
  */
 class EmailConfig {
     public static function getSettings($db) {
-        $res = mysqli_query($db, "SELECT setting_key, setting_value FROM pur_settings WHERE setting_key LIKE 'smtp_%'");
+        $res = mysqli_query($db, "SELECT setting_key, setting_value FROM pur_settings WHERE setting_key LIKE 'smtp_%' OR setting_key LIKE 'whatsapp_%' OR setting_key = 'app_url'");
         $settings = [];
         while ($row = mysqli_fetch_assoc($res)) {
             $settings[$row['setting_key']] = $row['setting_value'];

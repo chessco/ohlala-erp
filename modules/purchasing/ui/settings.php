@@ -134,6 +134,19 @@ while($u = mysqli_fetch_assoc($resUsers)) $users[] = $u;
     <main class="p-8 max-w-5xl mx-auto">
         <form id="settingsForm" class="space-y-8">
             
+            <!-- General System Settings -->
+            <section class="glass p-8 relative overflow-hidden">
+                <h2 class="font-headline text-xl text-[#BD9A5F] mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined">language</span> 
+                    Ajustes Generales
+                </h2>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] font-black text-white/40 uppercase tracking-widest">URL Base del Sistema (Para links de aprobación)</label>
+                    <input type="text" name="app_url" value="<?php echo $settings['app_url'] ?? 'http://localhost/ohlala-erp'; ?>" class="input-dark p-3 text-sm" placeholder="https://tu-dominio.com/ohlala-erp">
+                    <p class="text-[9px] text-white/30 italic mt-1">IMPORTANTE: Si usas ngrok, actualiza esta URL para que los links en WhatsApp funcionen fuera de tu red local.</p>
+                </div>
+            </section>
+
             <!-- SMTP Section -->
             <section class="glass p-8 relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-4 opacity-5">
@@ -196,6 +209,29 @@ while($u = mysqli_fetch_assoc($resUsers)) $users[] = $u;
                     </div>
                     <?php endfor; ?>
                 </div>
+            </section>
+
+            <!-- WhatsApp / Flow Bridge Section -->
+            <section class="glass p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-5">
+                    <span class="material-symbols-outlined text-9xl text-white font-thin">chat</span>
+                </div>
+                <h2 class="font-headline text-xl text-[#BD9A5F] mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined">ad_units</span> 
+                    Integración WhatsApp (Flow Bridge)
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] font-black text-white/40 uppercase tracking-widest">URL del Gateway (Flow)</label>
+                        <input type="text" name="whatsapp_bridge_url" value="<?php echo $settings['whatsapp_bridge_url'] ?? 'http://localhost:3003/whatsapp/external/approval'; ?>" class="input-dark p-3 text-sm">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] font-black text-white/40 uppercase tracking-widest">API Key Interna</label>
+                        <input type="password" name="whatsapp_internal_key" value="<?php echo $settings['whatsapp_internal_key'] ?? 'pitaya_internal_secret_2026'; ?>" class="input-dark p-3 text-sm">
+                    </div>
+                </div>
+                <p class="text-[10px] text-white/30 italic mt-6">Esta configuración permite al ERP conectarse con el Bridge de Flow para disparar mensajes automáticos.</p>
             </section>
 
             <!-- Visual Architecture Section -->

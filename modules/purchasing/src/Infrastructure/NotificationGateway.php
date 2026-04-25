@@ -1,5 +1,6 @@
-<?php
 namespace Purchasing\Infrastructure;
+
+require_once __DIR__ . '/../../flow_connector.php';
 
 /**
  * NotificationGateway
@@ -123,10 +124,19 @@ class NotificationGateway {
             $this->sendEmail($email, $subject, $html, $this->db);
         }
 
-        // 2. WhatsApp Next (Simple message for WA)
+        // 2. WhatsApp Next (Rich message via Flow)
         if ($phone) {
-            $msgWA = "Ohlala ERP: Solicitud #$requestId de $requester por $$amount requiere su Visto Bueno Nivel $currentLevel.";
-            $this->sendToFlow($phone, $msgWA, $requestId);
+            $wsUrl = $config['whatsapp_bridge_url'] ?? null;
+            $wsKey = $config['whatsapp_internal_key'] ?? null;
+
+            \FlowConnector::sendApprovalRequest([
+                'phone'     => $phone,
+                'folio'     => "#PR-$requestId",
+                'amount'    => "$$amount MXN",
+                'item'      => $supplier, // Using supplier as primary item context for PR header
+                'requestor' => $requester,
+                'id'        => $requestId
+            ], $wsUrl, $wsKey, $appUrl);
         }
         
         return true;
@@ -191,6 +201,8 @@ class NotificationGateway {
         }
 
         if ($phone) {
+            // Decision notification is simpler, we could use a different Flow template if available
+            // For now, we'll use a direct message or the same structure if applicable.
             $this->sendToFlow($phone, $message, $requestId);
         }
         
@@ -228,6 +240,7 @@ class NotificationGateway {
      */
     private function sendToFlow($phone, $message, $requestId) {
         error_log("Sending WA to $phone: $message (RS: $requestId)");
+        // Fallback for simple status messages not using the Approval Template
         return true;
     }
 }
