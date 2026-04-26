@@ -28,3 +28,17 @@ check_steps.php
 diag_approvals.php
 diag_save.php
 webhooks/diag_save.php
+# Deployment Scripts (Sensitive info)
+deploy.ps1
+deploy.bat
+sync_db.ps1
+sync_db.bat
+update.ps1
+update.bat
+import_db.php
+test_db.php
+unlock.php
+*.sql
+*.tar.gz
+patch_temp.tar.gz
+deploy_package.tar.gz
