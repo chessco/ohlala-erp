@@ -22,12 +22,14 @@ class FlowConnector {
         $link = "$appUrl/modules/purchasing/ui/list_requests.php?id=" . $data['id'];
         
         $payload = [
+            'external_id' => $data['id'],
             'phone' => $data['phone'],
             'folio' => $data['folio'],
             'amount' => $data['amount'],
             'item' => $data['item'],
             'requestor' => $data['requestor'],
-            'link' => $link
+            'link' => $link,
+            'tenant_slug' => $data['tenant_slug'] ?? 'default'
         ];
 
         $ch = curl_init($apiUrl);

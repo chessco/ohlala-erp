@@ -427,6 +427,12 @@ while ($c = mysqli_fetch_assoc($resCatalog)) $catalogData[] = $c;
                                 </div>
                                 <span id="level3Status" class="text-[9px] font-black uppercase tracking-widest text-[#021619]/40 font-bold italic">Usuario 3: ⏳</span>
                             </div>
+                            <div class="relative z-10 flex flex-col items-center gap-3">
+                                <div id="level4Circle" class="w-10 h-10 rounded-full bg-white border-2 border-[#021619]/10 flex items-center justify-center transition-all duration-500">
+                                    <span id="level4Icon" class="material-symbols-outlined text-lg">hourglass_empty</span>
+                                </div>
+                                <span id="level4Status" class="text-[9px] font-black uppercase tracking-widest text-[#021619]/40 font-bold italic">Usuario 4: ⏳</span>
+                            </div>
                         </div>
                     </div>
 

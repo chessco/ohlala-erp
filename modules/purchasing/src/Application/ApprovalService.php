@@ -62,8 +62,14 @@ class ApprovalService {
     private function handleNextLevel($requestId, $lastLevel) {
         $nextLevel = $lastLevel + 1;
         
-        if ($nextLevel > 3) {
-            // Flow finished: Total Approval
+        // Move to next level in purchase record
+        $this->purchaseRepo->moveToLevel($requestId, $nextLevel);
+        
+        // Try to get the next step info to notify
+        $nextStep = $this->approvalRepo->getCurrentStep($requestId);
+
+        if (!$nextStep) {
+            // No more pending steps: Flow finished: Total Approval
             $this->purchaseRepo->updateStatus($requestId, 'approved');
             
             $purchase = $this->purchaseRepo->findById($requestId);
@@ -73,16 +79,10 @@ class ApprovalService {
             return ["status" => "finalized", "message" => "Solicitud aprobada totalmente."];
         }
 
-        // Move to next level
-        $this->purchaseRepo->moveToLevel($requestId, $nextLevel);
-        
-        // Get next step info to notify
-        $nextStep = $this->approvalRepo->getCurrentStep($requestId);
-        if ($nextStep) {
-            $approverData = $this->getUserData($nextStep['approver_id']);
-            $purchase = $this->purchaseRepo->findById($requestId);
-            $this->notificationGateway->notifyNextApprover($requestId, $approverData, $purchase['description'], $nextLevel);
-        }
+        // Notify next level approver
+        $approverData = $this->getUserData($nextStep['approver_id']);
+        $purchase = $this->purchaseRepo->findById($requestId);
+        $this->notificationGateway->notifyNextApprover($requestId, $approverData, $purchase['description'], $nextLevel);
 
         return ["status" => "next_level", "message" => "Aprobación Nivel $lastLevel registrada. Notificando Nivel $nextLevel."];
     }

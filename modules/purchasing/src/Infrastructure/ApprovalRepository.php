@@ -50,16 +50,22 @@ class ApprovalRepository {
     /**
      * Pre-generate steps for a new request.
      */
-    public function initializeSteps($requestId, $approverLevel1, $approverLevel2, $approverLevel3) {
+    public function initializeSteps($requestId, $approverLevel1, $approverLevel2, $approverLevel3, $approverLevel4 = null) {
         $requestId = (int)$requestId;
         $v1 = (int)$approverLevel1;
         $v2 = (int)$approverLevel2;
         $v3 = (int)$approverLevel3;
+        $v4 = $approverLevel4 ? (int)$approverLevel4 : null;
 
         $sql = "INSERT INTO pur_approval_steps (request_id, level, approver_id) VALUES 
                 ($requestId, 1, $v1),
                 ($requestId, 2, $v2),
                 ($requestId, 3, $v3)";
+        
+        if ($v4) {
+            $sql .= ", ($requestId, 4, $v4)";
+        }
+        
         return mysqli_query($this->db, $sql);
     }
 }

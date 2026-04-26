@@ -1,3 +1,4 @@
+<?php
 namespace Purchasing\Infrastructure;
 
 require_once __DIR__ . '/../../flow_connector.php';
@@ -119,24 +120,52 @@ class NotificationGateway {
             <p style='text-align: center; font-size: 10px; color: #999; margin-top: 30px;'>Ohlala Artisanal &copy; " . date('Y') . " - Excellence in Every Ingredient</p>
         </div>";
 
+        $enableEmail = ($config['enable_email_notifications'] ?? '1') == '1';
+        $enableWA    = ($config['enable_whatsapp_notifications'] ?? '1') == '1';
+
         // 1. Email First
-        if ($email) {
+        if ($email && $enableEmail) {
             $this->sendEmail($email, $subject, $html, $this->db);
+        } else {
+            error_log("Email notification skipped for request #$requestId (Disabled or no email)");
         }
 
         // 2. WhatsApp Next (Rich message via Flow)
-        if ($phone) {
-            $wsUrl = $config['whatsapp_bridge_url'] ?? null;
-            $wsKey = $config['whatsapp_internal_key'] ?? null;
+        if ($phone && $enableWA) {
+            $wsUrl  = $config['whatsapp_bridge_url'] ?? 'http://localhost:3003/whatsapp/external/approval';
+            $wsKey  = $config['whatsapp_internal_key'] ?? 'pitaya_internal_secret_2026';
+            $tenant = $config['flow_tenant_slug'] ?? 'default';
 
-            \FlowConnector::sendApprovalRequest([
-                'phone'     => $phone,
-                'folio'     => "#PR-$requestId",
-                'amount'    => "$$amount MXN",
-                'item'      => $supplier, // Using supplier as primary item context for PR header
-                'requestor' => $requester,
-                'id'        => $requestId
+            error_log("NotificationGateway: Attempting WA for Request #$requestId to $phone (Level $currentLevel)");
+            
+            // Create summary of items for WhatsApp (max 3 items)
+            $waItemSummary = $supplier;
+            if (!empty($items)) {
+                $itemParts = [];
+                foreach (array_slice($items, 0, 3) as $item) {
+                    $itemParts[] = $item['description'] . " (" . (float)$item['quantity'] . ")";
+                }
+                $waItemSummary = implode(", ", $itemParts);
+                if (count($items) > 3) $waItemSummary .= "...";
+            }
+
+            $result = \FlowConnector::sendApprovalRequest([
+                'phone'       => $phone,
+                'folio'       => "#PR-$requestId",
+                'amount'      => "$$amount MXN",
+                'item'        => $waItemSummary, 
+                'requestor'   => $requester,
+                'id'          => $requestId,
+                'tenant_slug' => $tenant
             ], $wsUrl, $wsKey, $appUrl);
+
+            if ($result['success']) {
+                error_log("NotificationGateway: WA successfully sent to Flow for Request #$requestId");
+            } else {
+                error_log("NotificationGateway: FAILED to send WA to Flow. Code: {$result['code']} - Response: {$result['response']}");
+            }
+        } else {
+            error_log("NotificationGateway: WA skipped for Request #$requestId. Phone: " . ($phone ?: 'MISSING') . " | Enabled: " . ($enableWA ? 'YES' : 'NO'));
         }
         
         return true;
@@ -196,11 +225,15 @@ class NotificationGateway {
             </div>
         </div>";
 
-        if ($email) {
+        $config = \Purchasing\Infrastructure\Email\EmailConfig::getSettings($this->db);
+        $enableEmail = ($config['enable_email_notifications'] ?? '1') == '1';
+        $enableWA    = ($config['enable_whatsapp_notifications'] ?? '1') == '1';
+
+        if ($email && $enableEmail) {
             $this->sendEmail($email, $subject, $html, $this->db);
         }
 
-        if ($phone) {
+        if ($phone && $enableWA) {
             // Decision notification is simpler, we could use a different Flow template if available
             // For now, we'll use a direct message or the same structure if applicable.
             $this->sendToFlow($phone, $message, $requestId);

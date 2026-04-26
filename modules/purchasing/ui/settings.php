@@ -156,6 +156,18 @@ while($u = mysqli_fetch_assoc($resUsers)) $users[] = $u;
                     <span class="material-symbols-outlined">mail</span> 
                     Configuración de Correo (SMTP)
                 </h2>
+
+                <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-sm mb-6">
+                    <div>
+                        <p class="text-sm font-bold text-white mb-1">Activar Notificaciones por Email</p>
+                        <p class="text-[10px] text-white/40 italic uppercase tracking-wider">Envía alertas de aprobación al correo corporativo de los usuarios.</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="hidden" name="enable_email_notifications" value="0">
+                        <input type="checkbox" name="enable_email_notifications" value="1" <?php echo ($settings['enable_email_notifications'] ?? '1') == '1' ? 'checked' : ''; ?> class="sr-only peer">
+                        <div class="w-11 h-6 bg-[#021619] border border-white/20 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#BD9A5F] rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#BD9A5F]"></div>
+                    </label>
+                </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                     <div class="flex flex-col gap-2">
@@ -195,11 +207,12 @@ while($u = mysqli_fetch_assoc($resUsers)) $users[] = $u;
                     Cadena de Aprobación
                 </h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-                    <?php for($i=1; $i<=3; $i++): ?>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
+                    <?php for($i=1; $i<=4; $i++): ?>
                     <div class="flex flex-col gap-2">
                         <label class="text-[10px] font-black text-white/40 uppercase tracking-widest">Aprobador Nivel <?php echo $i; ?></label>
                         <select name="approver_level_<?php echo $i; ?>" class="input-dark p-3 text-sm">
+                            <option value="">--- Sin Asignar ---</option>
                             <?php foreach($users as $user): ?>
                                 <option value="<?php echo $user['id']; ?>" <?php echo (($settings['approver_level_'.$i] ?? '') == $user['id']) ? 'selected' : ''; ?>>
                                     <?php echo htmlspecialchars($user['nombre_completo']); ?>
@@ -220,8 +233,20 @@ while($u = mysqli_fetch_assoc($resUsers)) $users[] = $u;
                     <span class="material-symbols-outlined">ad_units</span> 
                     Integración WhatsApp (Flow Bridge)
                 </h2>
+
+                <div class="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-sm mb-6">
+                    <div>
+                        <p class="text-sm font-bold text-white mb-1">Activar Notificaciones por WhatsApp</p>
+                        <p class="text-[10px] text-white/40 italic uppercase tracking-wider">Habilita el flujo interactivo de aprobación vía Flow Bridge.</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="hidden" name="enable_whatsapp_notifications" value="0">
+                        <input type="checkbox" name="enable_whatsapp_notifications" value="1" <?php echo ($settings['enable_whatsapp_notifications'] ?? '1') == '1' ? 'checked' : ''; ?> class="sr-only peer">
+                        <div class="w-11 h-6 bg-[#021619] border border-white/20 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#BD9A5F] rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#BD9A5F]"></div>
+                    </label>
+                </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                     <div class="flex flex-col gap-2">
                         <label class="text-[10px] font-black text-white/40 uppercase tracking-widest">URL del Gateway (Flow)</label>
                         <input type="text" name="whatsapp_bridge_url" value="<?php echo $settings['whatsapp_bridge_url'] ?? 'http://localhost:3003/whatsapp/external/approval'; ?>" class="input-dark p-3 text-sm">
@@ -229,6 +254,10 @@ while($u = mysqli_fetch_assoc($resUsers)) $users[] = $u;
                     <div class="flex flex-col gap-2">
                         <label class="text-[10px] font-black text-white/40 uppercase tracking-widest">API Key Interna</label>
                         <input type="password" name="whatsapp_internal_key" value="<?php echo $settings['whatsapp_internal_key'] ?? 'pitaya_internal_secret_2026'; ?>" class="input-dark p-3 text-sm">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] font-black text-white/40 uppercase tracking-widest">Flow Tenant Slug</label>
+                        <input type="text" name="flow_tenant_slug" value="<?php echo $settings['flow_tenant_slug'] ?? 'default'; ?>" class="input-dark p-3 text-sm" placeholder="ej: ohlala-bistro">
                     </div>
                 </div>
                 <p class="text-[10px] text-white/30 italic mt-6">Esta configuración permite al ERP conectarse con el Bridge de Flow para disparar mensajes automáticos.</p>

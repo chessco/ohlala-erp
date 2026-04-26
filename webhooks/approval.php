@@ -36,8 +36,8 @@ $requestId = $data['request_id'] ?? null;
 $rawAction = strtolower(trim($data['action'] ?? ''));
 $userId    = $data['user_id'] ?? null;
 
-if (!$requestId || !$rawAction || !$userId) {
-    echo json_encode(["status" => "error", "message" => "Faltan parámetros requeridos."]);
+if (!$requestId || !$rawAction) {
+    echo json_encode(["status" => "error", "message" => "Faltan parámetros requeridos (ID o Acción)."]);
     exit;
 }
 
@@ -61,14 +61,50 @@ if (!$action) {
 try {
     $purchaseRepo = new PurchaseRepository($conexion);
     $approvalRepo = new ApprovalRepository($conexion);
-    $notifGateway = new NotificationGateway();
+    $notifGateway = new NotificationGateway($conexion);
     $service = new ApprovalService($conexion, $approvalRepo, $purchaseRepo, $notifGateway);
 
-    // 4. Process Approval Flow
+    // 4. Resolve User ID by Phone if missing (WhatsApp Flow)
+    if (!$userId && isset($data['phone'])) {
+        $phone = preg_replace('/\D/', '', $data['phone']);
+        
+        // PRIORIDAD: Buscar si el usuario con ese teléfono es el aprobador ACTUAL de esta solicitud
+        $sqlAuth = "SELECT u.id FROM usuarios u 
+                    JOIN pur_approval_steps s ON u.id = s.approver_id 
+                    WHERE s.request_id = $requestId 
+                    AND s.status = 'pending' 
+                    AND u.telefono LIKE '%$phone%' 
+                    LIMIT 1";
+        $resAuth = mysqli_query($conexion, $sqlAuth);
+        
+        if ($rowAuth = mysqli_fetch_assoc($resAuth)) {
+            $userId = $rowAuth['id'];
+        } else {
+            // Fallback: Cualquier usuario con ese teléfono (comportamiento anterior)
+            $resUser = mysqli_query($conexion, "SELECT id FROM usuarios WHERE telefono LIKE '%$phone%' LIMIT 1");
+            if ($rowUser = mysqli_fetch_assoc($resUser)) {
+                $userId = $rowUser['id'];
+            }
+        }
+    }
+
+    if (!$userId) {
+        throw new \Exception("No se pudo identificar al usuario aprobador.");
+    }
+
+    // 5. Process Approval Flow
     $result = $service->process($requestId, $action, $userId);
+
+    // Fetch user name for the response
+    $userName = "Usuario";
+    $resName = mysqli_query($conexion, "SELECT nombre_completo FROM usuarios WHERE id = $userId");
+    if ($rowName = mysqli_fetch_assoc($resName)) {
+        $userName = $rowName['nombre_completo'];
+    }
 
     echo json_encode([
         "status" => "success",
+        "approver_name" => $userName,
         "data"   => $result
     ]);
 
