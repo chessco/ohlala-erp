@@ -7,6 +7,7 @@ include('conexion.php');
 session_start();
 
 // 1.5 VERSIÓN DEL DASHBOARD (ROUTER)
+$DASHBOARD_VERSION = 3; // Activamos la versión premium diseñada
 if (isset($DASHBOARD_VERSION)) {
     if ($DASHBOARD_VERSION == 2) { include('dashboardv2.php'); exit(); }
     if ($DASHBOARD_VERSION == 3) { include('dashboardv3.php'); exit(); }

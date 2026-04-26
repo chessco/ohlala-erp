@@ -7,6 +7,7 @@
 header('Content-Type: application/json');
 include(__DIR__ . '/../conexion.php');
 
+
 // Simple Autoloader for Purchasing Module
 spl_autoload_register(function ($class) {
     $prefix = 'Purchasing\\';
@@ -63,17 +64,19 @@ try {
     $approvalRepo = new ApprovalRepository($conexion);
     $notifGateway = new NotificationGateway($conexion);
     $service = new ApprovalService($conexion, $approvalRepo, $purchaseRepo, $notifGateway);
+    
+    error_log("[Webhook Approval] START: Request $requestId, Action $action, Phone " . ($data['phone'] ?? 'N/A'));
 
-    // 4. Resolve User ID by Phone if missing (WhatsApp Flow)
     if (!$userId && isset($data['phone'])) {
         $phone = preg_replace('/\D/', '', $data['phone']);
+        $last10 = substr($phone, -10); // Los últimos 10 dígitos son los más fiables
         
         // PRIORIDAD: Buscar si el usuario con ese teléfono es el aprobador ACTUAL de esta solicitud
         $sqlAuth = "SELECT u.id FROM usuarios u 
                     JOIN pur_approval_steps s ON u.id = s.approver_id 
                     WHERE s.request_id = $requestId 
                     AND s.status = 'pending' 
-                    AND u.telefono LIKE '%$phone%' 
+                    AND u.telefono LIKE '%$last10%' 
                     LIMIT 1";
         $resAuth = mysqli_query($conexion, $sqlAuth);
         
@@ -81,7 +84,7 @@ try {
             $userId = $rowAuth['id'];
         } else {
             // Fallback: Cualquier usuario con ese teléfono (comportamiento anterior)
-            $resUser = mysqli_query($conexion, "SELECT id FROM usuarios WHERE telefono LIKE '%$phone%' LIMIT 1");
+            $resUser = mysqli_query($conexion, "SELECT id FROM usuarios WHERE telefono LIKE '%$last10%' LIMIT 1");
             if ($rowUser = mysqli_fetch_assoc($resUser)) {
                 $userId = $rowUser['id'];
             }
@@ -110,6 +113,7 @@ try {
 
 } catch (\Exception $e) {
     http_response_code(400);
+    error_log("[Webhook Approval Error] Request $requestId: " . $e->getMessage());
     echo json_encode([
         "status"  => "error",
         "message" => $e->getMessage()
